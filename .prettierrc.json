@@ -1,0 +1,23 @@
+{
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": false,
+  "singleQuote": false,
+  "quoteProps": "preserve",
+  "jsxSingleQuote": false,
+  "trailingComma": "none",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "jsxBracketSameLine": false,
+  "arrowParens": "always",
+  "embeddedLanguageFormatting": "auto",
+  "singleAttributePerLine": true,
+  "overrides": [
+    {
+      "files": ["*.js", "*.ts", "*.tsx", "*.jsx", "*.css", "*.scss"],
+      "options": {
+        "semi": true
+      }
+    }
+  ]
+}

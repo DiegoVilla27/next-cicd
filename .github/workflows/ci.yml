@@ -4,7 +4,9 @@ on:
   # push:
   #   branches: [main, development]
   pull_request:
-    branches: [main, development]
+    branches: 
+      - main
+      - development
 
 jobs:
   build-and-test:
@@ -37,6 +39,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Deploy to Vercel
-        run: npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+        run: 
+          if [ "${GITHUB_REF##*/}" == "main" ]; then
+            npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --confirm
+          elif [ "${GITHUB_REF##*/}" == "development" ]; then
+            npx vercel --token ${{ secrets.VERCEL_TOKEN }} --confirm
+          fi
         env:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

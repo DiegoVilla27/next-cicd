@@ -42,7 +42,7 @@ jobs:
         run: |
           if [ "${GITHUB_REF##*/}" == "main" ]; then
             npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --confirm
-          elif [ "${GITHUB_REF##*/}" == "development" ]; then
+          else
             npx vercel --token ${{ secrets.VERCEL_TOKEN }} --confirm
           fi
         env:

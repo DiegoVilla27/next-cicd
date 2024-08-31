@@ -9,7 +9,7 @@ export default function Home() {
           Get started by editing&nbsp;
           <code className={styles.code}>
             src/app/page.tsx{" "}
-            {process.env.NODE_ENV === "development" ? "DEVELOP" : "PRODUCTION"}
+            {/* {process.env.NODE_ENV === "development" ? "DEVELOP" : "PRODUCTION"} */}
           </code>
         </p>
         <div>

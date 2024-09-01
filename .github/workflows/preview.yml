@@ -34,7 +34,7 @@ jobs:
 
       - name: Build project
         run: npm run build
-
+ 
       - name: vercel-preview-url
         uses: zentered/vercel-preview-url@v1.1.9
         id: vercel_preview_url

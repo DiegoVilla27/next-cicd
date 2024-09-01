@@ -8,8 +8,7 @@ export default function Home() {
         <p>
           Get started by editing&nbsp;
           <code className={styles.code}>
-            src/app/page.tsx{" "}
-            {/* {process.env.NODE_ENV === "development" ? "DEVELOP" : "PRODUCTION"} */}
+            src/app/page.tsx CICD With Branches
           </code>
         </p>
         <div>

@@ -20,7 +20,7 @@ jobs:
 
       - name: Pull
         run: |
-          if [ "${{ github.head_ref }}" == "main" ]; then
+          if [ "${{ github.head_ref }}" == "development" ]; then
             vercel pull --environment=production --token=${{ secrets.VERCEL_TOKEN }} --yes
           else
             vercel pull --environment=preview --token=${{ secrets.VERCEL_TOKEN }} --yes
@@ -28,7 +28,7 @@ jobs:
 
       - name: Build
         run: |
-          if [ "${{ github.head_ref }}" == "main" ]; then
+          if [ "${{ github.head_ref }}" == "development" ]; then
             vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
           else
             vercel build --token=${{ secrets.VERCEL_TOKEN }}
@@ -36,7 +36,7 @@ jobs:
 
       - name: Deploy
         run: |
-          if [ "${{ github.head_ref }}" == "main" ]; then
+          if [ "${{ github.head_ref }}" == "development" ]; then
             vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
           else
             vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}

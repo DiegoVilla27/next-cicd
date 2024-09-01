@@ -2,13 +2,12 @@ import Image from "next/image";
 import styles from "./page.module.css";
 
 export default function Home() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  function notImplemented() {}
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx Sonar</code>
-        </p>
         <p>
           Get started by editing&nbsp;
           <code className={styles.code}>src/app/page.tsx Sonar</code>

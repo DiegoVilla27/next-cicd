@@ -8,10 +8,9 @@ on:
   pull_request:
     branches: 
       - development
-      - release/*
 
 jobs:
-  build-and-test:
+  build-and-test: 
     runs-on: ubuntu-latest
 
     steps:
@@ -36,9 +35,20 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: vercel-preview-url
+        uses: zentered/vercel-preview-url@v1.1.9
+        id: vercel_preview_url
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        with:
+          vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Get URL
+        run: echo "https://${{ steps.vercel_preview_url.outputs.preview_url }}"
+
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-test
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

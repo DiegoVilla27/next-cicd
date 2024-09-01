@@ -8,7 +8,7 @@ export default function Home() {
         <p>
           Get started by editing&nbsp;
           <code className={styles.code}>
-            src/app/page.tsx CICD With Branches
+            src/app/page.tsx release/cicd new5
           </code>
         </p>
         <div>

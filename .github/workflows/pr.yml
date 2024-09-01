@@ -1,0 +1,44 @@
+name: Building
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: 
+      - main
+      - development
+
+jobs:
+  build-and-test: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.12.2'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Linter
+        run: npm run eslint
+
+      - name: Run tests
+        run: npm run test
+
+      - name: Build project
+        run: npm run build
+ 
+      - name: vercel-preview-url
+        uses: zentered/vercel-preview-url@v1.1.9
+        id: vercel_preview_url
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        with:
+          vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Get URL
+        run: echo "https://${{ steps.vercel_preview_url.outputs.preview_url }}"

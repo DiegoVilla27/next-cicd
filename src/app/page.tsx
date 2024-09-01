@@ -7,10 +7,7 @@ export default function Home() {
       <div className={styles.description}>
         <p>
           Get started by editing&nbsp;
-          <code className={styles.code}>
-            src/app/page.tsx{" "}
-            {/* {process.env.NODE_ENV === "development" ? "DEVELOP" : "PRODUCTION"} */}
-          </code>
+          <code className={styles.code}>src/app/page.tsx CICD</code>
         </p>
         <div>
           <a

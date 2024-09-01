@@ -30,7 +30,7 @@ Commit Structure Guidelines:
 
 > IMPORTANT❗️ _`Subject is sentence-case`_
 
-## Config project 🟨
+## Config project ⬜
 
 Folders and files:
 
@@ -83,7 +83,6 @@ jobs:
             vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
           fi
 ```
-
 - _`pr.yml`_
 ```yml
 name: Building
@@ -118,6 +117,12 @@ jobs:
       - name: Run tests
         run: npm run test
 
+      - name: Sonar Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       - name: Build project
         run: npm run build
  
@@ -130,6 +135,22 @@ jobs:
       #     vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
       # - name: Get URL
       #   run: echo "https://${{ steps.vercel_preview_url.outputs.preview_url }}"
+```
+
+- Create the following in root project _`sonar-project.properties`_:
+```properties
+sonar.projectKey={{projectKey}}
+sonar.organization={{organizationKey}}
+
+# This is the name and version displayed in the SonarCloud UI.
+#sonar.projectName=next-cicd
+#sonar.projectVersion=1.0
+
+# Path is relative to the sonar-project.properties file. Replace "\" by "/" on Windows.
+#sonar.sources=.
+
+# Encoding of the source code. Default is default system encoding
+#sonar.sourceEncoding=UTF-8
 ```
 
 ## Config Vercel ⬛
@@ -148,23 +169,21 @@ Create secrets:
 - Go to github [https://github.com/](https://github.com)
 - Go to project settings -> Secrets and variables -> Actions
 - Click on `New repository secret`
-- Add `VERCEL_TOKEN`, `VERCEL_PROJECT_ID` and `VERCEL_ORG_ID`
-- `VERCEL_TOKEN` is located in the tokens of your vercel configurations
-- `VERCEL_PROJECT_ID` is located in project configuration
-- `VERCEL_ORG_ID` is located in the teams section of your settings
+- Add `VERCEL_TOKEN`, `VERCEL_PROJECT_ID`, `VERCEL_ORG_ID` and `SONAR_TOKEN`
+- `VERCEL_TOKEN` is located in the tokens of your vercel configurations (Vercel)
+- `VERCEL_PROJECT_ID` is located in project configuration (Vercel)
+- `VERCEL_ORG_ID` is located in the teams section of your settings (Vercel)
+- `SONAR_TOKEN` is located in the teams section of your settings (SonarCloud)
 
-## Errors or Tips ❗️
+## Config Sonar 🟧
 
-> Disable eslint line `// eslint-disable-next-line here-rule`
+Create Token and disabled Automatic Analysis:
 
-> To disable `@apply error scss` for _Tailwind CSS_ in VSCode, add the following script to your _.vscode > settings.json_: _`"scss.lint.unknownAtRules": "ignore"`_
+- Go to SonarCloud [https://sonarcloud.io](https://sonarcloud.io)
+- Go to My account -> Security -> Generate token `SONAR_TOKEN`
+- Go to My account -> Organizations -> _OrganizationKey_ is here
+- Go to My Projects -> Select project current -> Administration -> Analysis Method -> Disable _Automatic Analysis_
 
-> If Husky isn't working on MacOS, execute the command (within the root project):
-```bash
-chmod ug+x .husky/*
-```
-
-> To view prettified console objects in testing, use the following syntax: `console.log(JSON.stringify(obj, undefined, 2));`
 
 ## Developer 👨🏻‍💻
 

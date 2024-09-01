@@ -8,7 +8,7 @@ export default function Home() {
         <p>
           Get started by editing&nbsp;
           <code className={styles.code}>
-            src/app/page.tsx release/cicd new2
+            src/app/page.tsx release/cicd new3
           </code>
         </p>
         <div>

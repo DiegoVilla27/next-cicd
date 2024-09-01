@@ -6,8 +6,9 @@ env:
 
 on:
   pull_request:
-    branches-ignore: 
-      - main
+    branches: 
+      - development
+      - release/*
 
 jobs:
   build-and-test:

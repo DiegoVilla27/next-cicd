@@ -1,12 +1,9 @@
-name: DeploymentVercelPreview
-
-env:
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+name: Building
 
 on:
   pull_request:
     branches: 
+      - main
       - development
 
 jobs:
@@ -44,23 +41,3 @@ jobs:
           vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
       - name: Get URL
         run: echo "https://${{ steps.vercel_preview_url.outputs.preview_url }}"
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build-and-test
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install Vercel CLI
-        run: npm i --global vercel
-
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy Project Artifacts
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}

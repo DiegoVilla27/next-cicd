@@ -1,11 +1,10 @@
-name: Deployment
+name: DeploymentProd
 
 on:
   pull_request:
     types: [closed]
     branches: 
       - main
-      - development
 
 jobs:
   deploy:

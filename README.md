@@ -44,11 +44,18 @@ name: Deployment
 on:
   pull_request:
     types: [closed]
-    branches: 
-      - main
-      - development
+    branches: [main, development]
 
 jobs:
+  avoid_reduncy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cancel Previous Redundant Actions
+        uses: styfle/cancel-workflow-action@0.12.1
+        with:
+          access_token: ${{ github.token }}
+
   deploy:
     runs-on: ubuntu-latest
     
@@ -90,12 +97,38 @@ name: Building
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    branches: 
-      - main
-      - development
+    branches: [main, development]
 
 jobs:
-  build-and-test: 
+  avoid_reduncy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cancel Previous Redundant Actions
+        uses: styfle/cancel-workflow-action@0.12.1
+        with:
+          access_token: ${{ github.token }}
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+
+        - name: Setup Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: '20.12.2'
+            cache: 'npm'
+
+        - name: Install dependencies
+          run: npm install
+
+        - name: Run Linter
+          run: npm run eslint
+
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -111,17 +144,38 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Linter
-        run: npm run eslint
-
       - name: Run tests
         run: npm run test
+
+  sonar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Sonar Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  build: 
+    needs: [lint, test, sonar]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.12.2'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Build project
         run: npm run build
